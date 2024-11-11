@@ -1,0 +1,22 @@
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] SMILEapi: openSMILE starting!
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] SMILEapi: config file is: /Users/mariosantomaggio/Desktop/tesi/dev/perception/percenv/lib/python3.8/site-packages/opensmile/core/config/egemaps/v02/eGeMAPSv02.conf
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] cComponentManager: successfully registered 102 component types.
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] instance 'gemapsv01b_logSpectral': logSpecFloor = -140.00  (specFloor = 1.000000e-14)
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] instance 'egemapsv02_logSpectral_flux': logSpecFloor = -140.00  (specFloor = 1.000000e-14)
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] cComponentManager: successfully finished createInstances (73 component instances were finalised, 1 data memories were finalised)
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] cComponentManager: starting single thread processing loop
+[ 11.11.2024 - 18:29:31 ]
+    (WRN) [2] cComponentManager: The following component(s) could not perform any work because destination levels are full but no other component performed any work either: egemapsv02_smoE. Processing will possibly be incomplete. For more details, enable the execDebug option of cComponentManager.
+[ 11.11.2024 - 18:29:31 ]
+    (WRN) [2] cComponentManager: The following component(s) could not perform any work because destination levels are full but no other component performed any work either: egemapsv02_smoE. Processing will possibly be incomplete. For more details, enable the execDebug option of cComponentManager.
+[ 11.11.2024 - 18:29:31 ]
+    (WRN) [2] cComponentManager: The following component(s) could not perform any work because destination levels are full but no other component performed any work either: egemapsv02_smoE. Processing will possibly be incomplete. For more details, enable the execDebug option of cComponentManager.
+[ 11.11.2024 - 18:29:31 ]
+    (MSG) [2] cComponentManager: Processing finished! System ran for 361 ticks.
