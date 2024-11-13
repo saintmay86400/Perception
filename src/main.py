@@ -1,7 +1,4 @@
 import numpy as np
-#import tensorflow as tf
-#from tensorflow import keras
-#from keras import layers
 import os
 from model import *
 
@@ -9,8 +6,10 @@ from model import *
 #root del progetto: /perception
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Apri il file in modalità lettura binaria
-# data - dict type
+
+
+####### WESAD + MY EXTRACTOR () #########
+#####################################
 wesad_root = os.path.join(root, "public", "WESAD")
 wesad = Wesad(wesad_root)
 wesad.calculate_file_paths()
