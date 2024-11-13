@@ -8,15 +8,17 @@ root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-####### WESAD + MY EXTRACTOR () #########
-#####################################
+####### WESAD + MY CUSTOM EXTRACTOR (Biometricfeat) #########
+#############################################################
+
+'''
 wesad_root = os.path.join(root, "public", "WESAD")
 wesad = Wesad(wesad_root)
 wesad.calculate_file_paths()
 
 biometricfeat = Biometricfeat()
 biometricfeat.run(wesad.get_file_paths(), wesad.get_emotions())
-
+'''
 
 ####### RAVEDES + OPENSMILE #########
 #####################################
@@ -30,3 +32,5 @@ ravdess.calculate_file_paths()
 opensmile = Opensmile()
 #opensmile.run(ravdess.get_file_paths(), ravdess.get_emotions(), ravdess.get_intensities())
 '''
+
+print(os.path.dirname(root))
