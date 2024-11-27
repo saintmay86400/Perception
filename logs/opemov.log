@@ -1,0 +1,12 @@
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] SMILEapi: openSMILE starting!
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] SMILEapi: config file is: /Users/mariosantomaggio/Desktop/tesi/dev/perception/percenv/lib/python3.8/site-packages/opensmile/core/config/egemaps/v02/eGeMAPSv02.conf
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] cComponentManager: successfully registered 102 component types.
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] instance 'gemapsv01b_logSpectral': logSpecFloor = -140.00  (specFloor = 1.000000e-14)
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] instance 'egemapsv02_logSpectral_flux': logSpecFloor = -140.00  (specFloor = 1.000000e-14)
+[ 28.11.2024 - 00:03:05 ]
+    (MSG) [2] cComponentManager: successfully finished createInstances (73 component instances were finalised, 1 data memories were finalised)

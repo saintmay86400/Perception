@@ -6,8 +6,11 @@ import neurokit2 as nk
 
 class Biometricfeat(BiometricFeaturesExtractor):
     def __init__(self):
-        self._csvpath = "datasets/biometrics.csv"
-        
+        self._csvpath = "datasets/biometrics_aug.csv"
+    
+    def get_csvpath(self):
+        return self._csvpath
+          
     def read_file(self, path):
         with open(path, 'rb') as file:
             #Carica l'oggetto dal file pickle
@@ -15,12 +18,12 @@ class Biometricfeat(BiometricFeaturesExtractor):
         return data
     
     @staticmethod
-    def fenestration(signal, campionamento):
+    def fenestration(signal, sampling_rate):
 
         if signal.shape[1] == 1:
-            return signal.reshape(-1,campionamento)
+            return signal.reshape(-1,sampling_rate)
         else: 
-            return signal.reshape(-1, campionamento, signal.shape[1])
+            return signal.reshape(-1, sampling_rate, signal.shape[1])
         
     def extract_features(self, signal, sampling_rate):
         pass
@@ -347,9 +350,9 @@ class Biometricfeat(BiometricFeaturesExtractor):
         return windows_features
     
     def run(self, file_paths, emotions):
+        first_read = True
         for path in file_paths:
             data = self.read_file(path)
-            #print(data)
             wrist_signals = data['signal']['wrist']
             # segnali separati -> numpy.ndarray type
             tag_raw = data['label'].reshape(-1,1) #trasformo in vettore colonna
@@ -365,8 +368,9 @@ class Biometricfeat(BiometricFeaturesExtractor):
             acc = Biometricfeat.fenestration(acc_raw, 32)
             
             windows = Biometricfeat.get_emotions_index(tags)
-            
             windows_features = Biometricfeat.extract_biometric_features(windows, bvp, eda, temp, acc)
+            
             for window_feature in windows_features:
                 frame = Biometricfeat.create_data_frame([window_feature["BVP_Features"], window_feature["EDA_Features"], window_feature["TEMP_Features"], window_feature["ACC_Features"]], window_feature["Emotion_Code"], emotions)
-                frame.to_csv(self._csvpath, index=False, mode='a')
+                frame.to_csv(self._csvpath, index=False, header=first_read, mode='a')
+                first_read = False
