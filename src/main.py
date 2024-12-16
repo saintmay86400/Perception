@@ -1,3 +1,4 @@
+import config
 import numpy as np
 import os
 import pandas as pd
@@ -9,23 +10,18 @@ import pyaudio
 import time
 
 
-#root del progetto: /perception
-root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 
 ####### WESAD + MY CUSTOM EXTRACTOR (Biometricfeat) #########
 #############################################################
 
 
-wesad_root = os.path.join(root, "public", "WESAD")
+'''wesad_root = os.path.join(config.root, "public", "WESAD")
 wesad = Wesad(wesad_root)
 wesad.calculate_file_paths()
 
-biometricfeat = Biometricfeat()
-#biometricfeat.run(wesad.get_file_paths(), wesad.get_emotions())
-'''
-csv_biometrics = pd.read_csv(os.path.join(root, biometricfeat.get_csvpath()))
+biometricfeat = Biometricfeat(wesad)
+
+csv_biometrics = pd.read_csv(os.path.join(config.root, biometricfeat.get_csvpath()))
 csv_biometrics.fillna(0, inplace=True)
 csv_biometrics.replace([np.inf, -np.inf], 0, inplace=True)
 z = csv_biometrics.pop('Emotion_Code')
@@ -40,12 +36,14 @@ T_train, T_test, z_train, z_test = train_test_split(T, z, test_size=0.3, stratif
 bio_svc = Svc()
 
 bio_svc.train(T_train, z_train)
-print(bio_svc.evaluate(T_test, z_test))
+print('Precisione media di predizione: ', bio_svc.evaluate(T_test, z_test))
 z_pred = bio_svc.predict(T_test)
-print(bio_svc.confusion_matrix(z_test, z_pred))
-print(bio_svc.cross_validation(T,z))
-bio_svc.save_model(os.path.join(root, "models", "bio_svc.pkl"))
-'''
+print('Matrice di confusione: \n', bio_svc.confusion_matrix(z_test, z_pred)'''
+
+
+
+#print(bio_svc.cross_validation(T,z))
+#bio_svc.save_model(os.path.join(root, "models", "bio_svc.pkl"))
 
 
 ####### RAVDES + OPENSRAVD #########
@@ -69,15 +67,15 @@ opensravd = Opensravd()
 # path della cartella emovo (contiene-> cartelle "Attori" con file audio)
 
 
-emovo_root = os.path.join(root, "public", "EMOVO", "actors")
+'''emovo_root = os.path.join(config.root, "public", "EMOVO", "actors")
 emovo = Emovo(emovo_root)
 emovo.calculate_file_paths()
 
-opensemov = Opensemov()
-#opensemov.run(emovo.get_file_paths(), emovo.get_emotions())
+opensemov = Opensemov(emovo)
+#opensemov.run()
 
 
-'''csv_emovo = pd.read_csv(os.path.join(root, opensemov.get_csvpath()))
+csv_emovo = pd.read_csv(os.path.join(config.root, opensemov.get_csvpath()))
 y = csv_emovo.pop('Emotion_Code')
 X =csv_emovo.drop(['Emotion'], axis=1)
 
@@ -86,20 +84,23 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 emo_svc = Svc()
 
 emo_svc.train(X_train, y_train)
-print(emo_svc.evaluate(X_test, y_test))
+print('Precisione media di predizione: ',emo_svc.evaluate(X_test, y_test))
 y_pred = emo_svc.predict(X_test)
-print(emo_svc.confusion_matrix(y_test, y_pred))
-print(emo_svc.cross_validation(X,y))
-#emo_svc.save_model(os.path.join(root, "models", "emo_aug_svc.pkl"))'''
+print('Matrice di confusione: \n', emo_svc.confusion_matrix(y_test, y_pred))
 
 
-emo_aug_svc = Svc().load_model(os.path.join(root, "models", "emo_aug_svc.pkl"))
+#print(emo_svc.cross_validation(X,y))
+emo_svc.save_model(os.path.join(config.root, "models", "emovo_aug_svc.pkl"))'''
+
+
+#emo_aug_svc = Svc().load_model(os.path.join(config.root, "models", "emovo_aug_svc.pkl"))
 #bio_svc = Svc().load_model(os.path.join(root, "models", "bio_svc.pkl"))
 
-print(emo_aug_svc)
+#print(emo_aug_svc)
 #print(bio_svc)
 
-'''recorder = AudioRecorder(pyaudio.paInt16, 1, 44100, 1024, os.path.join(root, "vocals", "inbox", "perception_vocal_"))
+
+'''recorder = AudioRecorder(pyaudio.paInt16, 1, 44100, 1024, os.path.join(config.root, "vocals", "inbox", "perception_vocal_"))
 mic = Microphone(recorder)
 mic.start_mic()
 
@@ -110,31 +111,38 @@ try:
 except KeyboardInterrupt:
     mic.stop_mic()
     print("Script terminato.")'''
-    
-'''opensperce = Opensperce()
-dir = os.path.join(root,"vocals", "inbox",)
+
+
+'''emo_aug_svc = Svc().load_model(os.path.join(config.root, "models", "emovo_aug_svc.pkl"))
+
+opensperce = Opensperce()
+dir = os.path.join(config.root,"vocals", "inbox",)
 paths = [os.path.join(dir, file) for file in os.listdir(dir)]
 
-#opensperce.run(paths)
+opensperce.run(paths)
 
-csv_vocals = pd.read_csv(os.path.join(root, opensperce.get_csvpath()))
+csv_vocals = pd.read_csv(os.path.join(config.root, opensperce.get_csvpath()))
 X =csv_vocals.drop(['file_name'], axis=1)
 
 print(emo_aug_svc.predict(X))'''
 
-import whisper
-import ssl
-import urllib.request
 
-# Disabilita la verifica del certificato SSL
-ssl._create_default_https_context = ssl._create_unverified_context
+'''model = whisper.load_model("base")
+result = model.transcribe(os.path.join(root, "vocals", "inbox", "perception_vocal_20241127_225930.wav"))
+print(result["text"])'''
 
-'''# Load model directly
-from transformers import AutoProcessor, AutoModelForSpeechSeq2Seq
+'''from groq import Groq
+client = Groq(
+    api_key = os.environ.get("GROQ_API_KEY")
+              )
+chat_completion = client.chat.completions.create(
+    messages = [
+        {
+            "role":"user",
+            "content":"il gatto è morto",
+        }
+    ],
+    model="llama3-8b-8192",
+)
 
-processor = AutoProcessor.from_pretrained("openai/whisper-base")
-model = AutoModelForSpeechSeq2Seq.from_pretrained("openai/whisper-base")'''
-
-model = whisper.load_model("base")
-result = model.transcribe(os.path.join(root, "vocals", "inbox", "perception_vocal_20241127_225911.wav"))
-print(result["text"])
+print(chat_completion.choices[0].message.content)'''

@@ -1,12 +1,14 @@
 from .biometric_features_extractor import BiometricFeaturesExtractor
+from .wesad import Wesad
 import pickle
 import numpy as np
 import pandas as pd
 import neurokit2 as nk
 
 class Biometricfeat(BiometricFeaturesExtractor):
-    def __init__(self):
+    def __init__(self, dataset: Wesad):
         self._csvpath = "datasets/biometrics_aug.csv"
+        self.dataset = dataset
     
     def get_csvpath(self):
         return self._csvpath
@@ -58,14 +60,14 @@ class Biometricfeat(BiometricFeaturesExtractor):
         
         return np.empty([1,1])
     
-    @staticmethod
-    def create_data_frame(features, tag, emotions):
+   
+    def create_data_frame(self,features, tag):
         df = pd.DataFrame()
         for signal_type in features:
             for feature_name, value in signal_type:
                 df[feature_name] = [value]
         df['Emotion_Code'] = tag
-        df['Emotion'] = emotions[tag]
+        df['Emotion'] = self.dataset.get_emotions()[tag]
         return df
     
     # estrattore di features BVP(Blood Volume Pulse) utilizzando la libreria neuralkit2 a supporto:
@@ -349,7 +351,7 @@ class Biometricfeat(BiometricFeaturesExtractor):
             
         return windows_features
     
-    def run(self, file_paths, emotions):
+    def run(self, file_paths):
         first_read = True
         for path in file_paths:
             data = self.read_file(path)
@@ -371,6 +373,6 @@ class Biometricfeat(BiometricFeaturesExtractor):
             windows_features = Biometricfeat.extract_biometric_features(windows, bvp, eda, temp, acc)
             
             for window_feature in windows_features:
-                frame = Biometricfeat.create_data_frame([window_feature["BVP_Features"], window_feature["EDA_Features"], window_feature["TEMP_Features"], window_feature["ACC_Features"]], window_feature["Emotion_Code"], emotions)
+                frame = self.create_data_frame([window_feature["BVP_Features"], window_feature["EDA_Features"], window_feature["TEMP_Features"], window_feature["ACC_Features"]], window_feature["Emotion_Code"])
                 frame.to_csv(self._csvpath, index=False, header=first_read, mode='a')
                 first_read = False

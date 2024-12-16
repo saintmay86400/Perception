@@ -3,9 +3,7 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.decomposition import PCA
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix
 import pickle
 
 class Svc(BaseModel):
@@ -29,6 +27,6 @@ class Svc(BaseModel):
         return confusion_matrix(y_test, y_pred)
 
     
-    def cross_validation(self, X, y):
-        return cross_val_score(self.model, X, y, cv=5)
+    def cross_validation(self, X_train, y_train, folders):
+        return cross_val_score(self.model, X_train, y_train, cv=folders)
         

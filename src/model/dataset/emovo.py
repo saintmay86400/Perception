@@ -4,7 +4,7 @@ from .dataset import Dataset
 class Emovo(Dataset):
     def __init__(self, root):
         super().__init__(root)
-        self._emotions = {'neu':[1,'neutral'], 'gio':[2,'happy'], 'tri':[3,'sad']}
+        self._emotions = {'neu':[1,'neutro'], 'gio':[2,'felice'], 'tri':[3,'triste']}
     
     def calculate_file_paths(self):
         # list dei path di tutti i file audio
